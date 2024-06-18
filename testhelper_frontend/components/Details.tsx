@@ -1,9 +1,10 @@
 /**
  * Project: testhelper_frontend_v2
  * Created by: Hofbauer Maximilian
- * Date: 18.06.2024
- * Time: 13:54
+ * Date: 22.05.2024
+ * Time: 14:18
  */
+
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { getExams } from "../api/API Access";
@@ -33,10 +34,15 @@ const Details: React.FC<DetailsProps> = ({ selectedSubject, examDate }) => {
     }, []);
 
     useEffect(() => {
-        if (!selectedSubject || !examDate) return
+        if (!selectedSubject || !examDate) return;
+
+        // Assuming you want to map "MAT" to "Mathematics"
+        if (selectedSubject.toString().toUpperCase().includes("MAT")) {
+            selectedSubject = "Mathematics";
+        }
 
         const filteredExams = exams.filter(exam =>
-            exam.subject === selectedSubject && exam.date === examDate
+            exam.subject === selectedSubject && exam.date.toString().includes(examDate)
         );
 
         if (filteredExams.length > 0) {
@@ -46,14 +52,29 @@ const Details: React.FC<DetailsProps> = ({ selectedSubject, examDate }) => {
         }
     }, [exams, selectedSubject, examDate]);
 
+    const calculateProgressWidth = (rating: number): string => {
+        const min = 1;
+        const max = 10;
+        const progress = (rating - min) / (max - min) * 100;
+        return `${progress}%`;
+    };
+
     return (
         <View style={styles.container}>
-            <Text style={styles.header} testID="detailsScreen">{selectedSubject}</Text>
-            <View style={styles.teststoffContainer}>
-                <Text style={styles.teststoffTitle}>Teststoff</Text>
-                <Text style={styles.teststoffText}>
-                    {actualExam ? actualExam.difficulty_rating : 'Loading...'}
-                </Text>
+            <View style={styles.header}>
+                <Text style={styles.headerText}>{selectedSubject}</Text>
+                <Text style={styles.headerText}>{examDate}</Text>
+            </View>
+            <View style={styles.detailsContainer}>
+                {actualExam && (
+                    <>
+                        <Text style={styles.detailText}>Type: {actualExam.type}</Text>
+                        <Text style={styles.detailText}>Difficulty Rating:</Text>
+                        <View style={styles.difficultyBar}>
+                            <View style={[styles.difficultyFill, { width: calculateProgressWidth(actualExam.difficulty_rating) }]} />
+                        </View>
+                    </>
+                )}
             </View>
         </View>
     );
@@ -62,28 +83,37 @@ const Details: React.FC<DetailsProps> = ({ selectedSubject, examDate }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
         backgroundColor: '#fff',
     },
     header: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: '#000080',
     },
-    teststoffContainer: {
+    headerText: {
+        fontSize: 18,
+        color: '#fff',
+    },
+    detailsContainer: {
+        padding: 20,
+    },
+    detailText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    difficultyBar: {
+        height: 20,
         backgroundColor: '#d3d3d3',
-        padding: 15,
         borderRadius: 10,
-        marginTop: 20,
+        flexDirection: 'row',
+        overflow: 'hidden',
     },
-    teststoffTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    teststoffText: {
-        fontSize: 16,
-        lineHeight: 24,
+    difficultyFill: {
+        height: '100%',
+        backgroundColor: 'blue',
     },
 });
 
