@@ -8,9 +8,11 @@
 import React from 'react';
 import Details from "../components/Details";
 
-const DetailsScreen = () => {
+// @ts-ignore
+const DetailsScreen = ({route}) => {
+    const {selectedSubject, examDate} = route.params;
     return (
-        <Details></Details>
+        <Details selectedSubject={selectedSubject} examDate={examDate}></Details>
     );
 };
 

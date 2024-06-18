@@ -9,5 +9,5 @@
 export type RootStackParamList = {
     Calendar: undefined;
     List: undefined;
-    Details: undefined;
+    Details: { selectedSubject: any; examDate: any };
 };

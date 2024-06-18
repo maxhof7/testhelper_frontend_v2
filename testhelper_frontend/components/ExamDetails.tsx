@@ -23,8 +23,12 @@ const ExamDetails:React.FC<ExamDetailsProps> = ({ selectedSubject, examDate }) =
     const navigation = useNavigation();
 
     const handlePress = () =>{
+
         // @ts-ignore
-        navigation.navigate("Details");
+        navigation.navigate("Details",{
+            selectedSubject: selectedSubject,
+            examDate: examDate
+        });
     };
 
     return(

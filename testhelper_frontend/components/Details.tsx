@@ -4,18 +4,55 @@
  * Date: 18.06.2024
  * Time: 13:54
  */
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { getExams } from "../api/API Access";
+import { IExam } from "../models/exam";
 
-const TeststoffComponent = () => {
+interface DetailsProps {
+    selectedSubject: any;
+    examDate: any;
+}
+
+const Details: React.FC<DetailsProps> = ({ selectedSubject, examDate }) => {
+
+    const [exams, setExams] = useState<IExam[]>([]);
+    const [actualExam, setActualExam] = useState<IExam | undefined>();
+
+    const fetchExams = async () => {
+        try {
+            const examsData = await getExams();
+            setExams(examsData);
+        } catch (error) {
+            console.error('Error fetching exams:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchExams();
+    }, []);
+
+    useEffect(() => {
+        if (!selectedSubject || !examDate) return
+
+        const filteredExams = exams.filter(exam =>
+            exam.subject === selectedSubject && exam.date === examDate
+        );
+
+        if (filteredExams.length > 0) {
+            setActualExam(filteredExams[0]); // Assuming there's only one matching exam
+        } else {
+            setActualExam(undefined); // Reset actualExam if no matching exam found
+        }
+    }, [exams, selectedSubject, examDate]);
+
     return (
         <View style={styles.container}>
-            <Text style={styles.header} testID="detailsScreen">Mathematik SA</Text>
+            <Text style={styles.header} testID="detailsScreen">{selectedSubject}</Text>
             <View style={styles.teststoffContainer}>
                 <Text style={styles.teststoffTitle}>Teststoff</Text>
                 <Text style={styles.teststoffText}>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+                    {actualExam ? actualExam.difficulty_rating : 'Loading...'}
                 </Text>
             </View>
         </View>
@@ -37,6 +74,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#d3d3d3',
         padding: 15,
         borderRadius: 10,
+        marginTop: 20,
     },
     teststoffTitle: {
         fontSize: 20,
@@ -49,4 +87,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default TeststoffComponent;
+export default Details;
