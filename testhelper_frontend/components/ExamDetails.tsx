@@ -9,24 +9,37 @@
 
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 interface ExamDetailsProps{
     selectedSubject: any,
     examDate: any
 }
 
-const ExamDetails:React.FC<ExamDetailsProps> = ({ selectedSubject, examDate }) => (
+
+
+const ExamDetails:React.FC<ExamDetailsProps> = ({ selectedSubject, examDate }) => {
+
+    const navigation = useNavigation();
+
+    const handlePress = () =>{
+        // @ts-ignore
+        navigation.navigate("Details");
+    };
+
+    return(
+
     <View style={styles.detailsContainer}>
         <View style={styles.examInfo}>
             <Text style={styles.examText}>{selectedSubject}</Text>
             <Text style={styles.examDate}>{examDate}</Text>
         </View>
         <Text style={styles.teststoff}>Teststoff:</Text>
-        <TouchableOpacity style={styles.detailsButton}>
+        <TouchableOpacity style={styles.detailsButton} onPress={handlePress} testID="detailsButton">
             <Text style={styles.detailsButtonText}>Details</Text>
         </TouchableOpacity>
     </View>
-);
+)};
 
 const styles = StyleSheet.create({
     detailsContainer: {

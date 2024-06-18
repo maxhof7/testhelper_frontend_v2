@@ -11,7 +11,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const Header = () => (
-    <View style={styles.header}>
+    <View style={styles.header} testID={"headerComponent"}>
         <Text style={styles.headerText}>My Exams</Text>
         <TouchableOpacity>
             <Text>👤</Text>
