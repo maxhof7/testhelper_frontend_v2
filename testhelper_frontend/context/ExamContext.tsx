@@ -75,15 +75,7 @@ const ExamProvider: React.FC<{ children: ReactNode }> = ({children}) => {
                 type: 'Final',
                 subject: 'Physics',
                 materials: [],
-            },
-            {
-                id: Date.now() + 2,
-                date: new Date(),
-                difficulty_rating: 2,
-                type: 'Quiz',
-                subject: 'Chemistry',
-                materials: [],
-            },
+            }
         ];
 
         try {

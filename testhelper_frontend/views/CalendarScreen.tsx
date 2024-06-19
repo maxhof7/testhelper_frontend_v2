@@ -8,7 +8,7 @@ import { useExamContext } from '../context/ExamContext';
 import AddExamPopUp from "../components/AddExamPopUp";
 
 const CalendarScreen = () => {
-    const [selectedDate, setSelectedDate] = useState('2024-06-05');
+    const [selectedDate, setSelectedDate] = useState('2024-06-19');
     const { exams } = useExamContext();
     const navigation = useNavigation();
     const [isAddExamPopUpVisible, setAddExamPopUpVisible] = useState(false);

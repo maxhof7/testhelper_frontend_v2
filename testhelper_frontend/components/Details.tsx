@@ -40,9 +40,9 @@ const Details: React.FC<DetailsProps> = ({ selectedSubject, examDate }) => {
         );
 
         if (filteredExams.length > 0) {
-            setActualExam(filteredExams[0]); // Assuming there's only one matching exam
+            setActualExam(filteredExams[0]);
         } else {
-            setActualExam(undefined); // Reset actualExam if no matching exam found
+            setActualExam(undefined);
         }
     }, [exams, selectedSubject, examDate]);
 
