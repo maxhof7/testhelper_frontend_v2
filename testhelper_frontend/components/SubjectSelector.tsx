@@ -7,30 +7,50 @@
 
 // File: components/SubjectSelector.js
 
-import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {useExamContext} from "../context/ExamContext";
+import {useSelectedExamContext} from "../context/SelectedExamContext";
+import {useSelectedSubjectContext} from "../context/SelectedSubjectContext";
 
-interface SubjectSelectorProps{
-    selectedSubject: any,
-    setSelectedSubject: any
-}
 
-const SubjectSelector:React.FC<SubjectSelectorProps> = ({ selectedSubject, setSelectedSubject }) => (
-    <View style={styles.subjectContainer}>
-        {['Deutsch', 'Mathe', 'POS', 'DBI'].map((subject) => (
+const SubjectSelector: React.FC = () => {
+    const [subjects, setSubjects] = useState<string[]>()
+    const {exams} = useExamContext()
+    const {selectedSubject, selectSubject, clearSubjectSelection} = useSelectedSubjectContext()
+
+    useEffect(() => {
+        const uniqueSubjects = Array.from(new Set(exams.flatMap(e => e.subject)));
+        setSubjects(uniqueSubjects);
+    }, [exams]);
+
+    return (
+        <View style={styles.subjectContainer}>
             <TouchableOpacity
-                key={subject}
+                key={"All"}
                 style={[
                     styles.subjectButton,
-                    subject === selectedSubject && styles.selectedButton
+                    !selectedSubject && styles.selectedButton
                 ]}
-                onPress={() => setSelectedSubject(subject)}
+                onPress={() => clearSubjectSelection()}
             >
-                <Text style={styles.subjectText}>{subject}</Text>
+                <Text style={styles.subjectText}>{"All"}</Text>
             </TouchableOpacity>
-        ))}
-    </View>
-);
+            {subjects ? subjects.map((subject) => (
+                <TouchableOpacity
+                    key={subject}
+                    style={[
+                        styles.subjectButton,
+                        subject === selectedSubject && styles.selectedButton
+                    ]}
+                    onPress={() => selectSubject(subject)}
+                >
+                    <Text style={styles.subjectText}>{subject}</Text>
+                </TouchableOpacity>
+            )) : null}
+
+        </View>);
+}
 
 const styles = StyleSheet.create({
     subjectContainer: {

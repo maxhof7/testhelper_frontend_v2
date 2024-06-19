@@ -6,25 +6,21 @@
  */
 
 
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Header from '../components/Header';
-import SubjectSelector from '../components/SubjectSelector';
-import ViewToggle from '../components/ViewToggle';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+
+import {useExamContext} from "../context/ExamContext";
+import ExamSmall from "../components/ExamSmall";
 
 const ListScreen = () => {
-    const [selectedSubject, setSelectedSubject] = useState('Mathematik SA');
     const [view, setView] = useState('list');
+    const {exams} = useExamContext()
 
     return (
         <View style={styles.container}>
-            <Header />
-            <SubjectSelector
-                selectedSubject={selectedSubject}
-                setSelectedSubject={setSelectedSubject}
-            />
-            <ViewToggle setView={setView} />
-            <Text>List View (to be implemented)</Text>
+            {/*{exams? exams.map( e => {*/}
+            {/*    return <ExamSmall exam={e}></ExamSmall>*/}
+            {/*}):null}*/}
         </View>
     );
 };

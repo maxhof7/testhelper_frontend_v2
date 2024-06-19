@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, {createContext, useContext, useEffect, useState, ReactNode} from 'react';
 import {IExam} from "../models/exam";
 import {createExam, deleteExam, getExams, updateExam} from "../api/API Access";
 
@@ -15,7 +15,7 @@ interface ExamContextProps {
 
 const ExamContext = createContext<ExamContextProps | undefined>(undefined);
 
-const ExamProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+const ExamProvider: React.FC<{ children: ReactNode }> = ({children}) => {
     const [exams, setExams] = useState<IExam[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -52,7 +52,7 @@ const ExamProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const deleteExamById = async (id: string) => {
         try {
             await deleteExam(id);
-            setExams(prevExams => prevExams.filter(e => e.id+"" !== id));
+            setExams(prevExams => prevExams.filter(e => e.id + "" !== id));
         } catch (error) {
             console.error('Error deleting exam:', error);
         }
@@ -100,7 +100,8 @@ const ExamProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     }, []);
 
     return (
-        <ExamContext.Provider value={{ exams, loading, fetchExams, addExam, updateExamById, deleteExamById, initializeTestData }}>
+        <ExamContext.Provider
+            value={{exams, loading, fetchExams, addExam, updateExamById, deleteExamById, initializeTestData}}>
             {children}
         </ExamContext.Provider>
     );
@@ -114,4 +115,4 @@ const useExamContext = () => {
     return context;
 };
 
-export { ExamProvider, useExamContext };
+export {ExamProvider, useExamContext};

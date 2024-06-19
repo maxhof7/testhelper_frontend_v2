@@ -39,9 +39,7 @@ const ExamDetails:React.FC<ExamDetailsProps> = ({ selectedSubject, examDate }) =
             <Text style={styles.examDate}>{examDate}</Text>
         </View>
         <Text style={styles.teststoff}>Teststoff:</Text>
-        <TouchableOpacity style={styles.detailsButton} onPress={handlePress} testID="detailsButton">
-            <Text style={styles.detailsButtonText}>Details</Text>
-        </TouchableOpacity>
+        <Text>{}</Text>
     </View>
 )};
 

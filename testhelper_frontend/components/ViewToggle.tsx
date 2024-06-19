@@ -11,7 +11,7 @@ import React from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 
 interface ViewToggleProps{
-    setView: any
+    setView: (s:string)=>void
 }
 
 const ViewToggle:React.FC<ViewToggleProps> = ({ setView }) => (

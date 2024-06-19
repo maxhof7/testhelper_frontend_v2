@@ -15,9 +15,5 @@ export interface IMaterial {
 }
 
 
-export interface IMaterial {
-    id: number;
-    file: IPDFFile;
-    title: string;
-}
+
 
